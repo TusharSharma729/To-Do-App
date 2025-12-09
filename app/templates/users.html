@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block title %}Tasks{% endblock %} {% block content
+%}
+
+<h2>Registered Users</h2>
+<table class="task-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    {% if user.username == 'admin' %}
+    <tr>
+      <td>{{ user.display_number }}</td>
+      <td>{{ user.username }}</td>
+      <td>Admin</td>
+      <td>None</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td>{{ user.display_number }}</td>
+      <td>{{ user.username }}</td>
+      <td>User</td>
+      {% if session.get('is_admin') %}
+      <td>
+      <form method="POST" action="{{ url_for('auth.delete_user', user_id=user.id) }}">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+      </form>
+      </td>
+    </tr>
+      {% else %}
+      <span class="text-muted">Not allowed</span>
+      {% endif %}
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

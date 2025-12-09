@@ -1,0 +1,65 @@
+{% extends 'base.html' %} 
+{% block title %}Tasks{% endblock %} 
+{% block content %}
+<div class="task-box">
+  <h2>Your Tasks</h2>
+  <form action="{{url_for('tasks.add_task')}}" method="POST" class="task-form">
+    <input type="text" name="title" placeholder="New Task" required class="form-control" oninput="this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());">
+    <input type="text" name="time" placeholder="Time" required class="form-control" />
+    <input type="date" name="date" placeholder="Date" required class="form-control" />
+    <input type="text" name="day" placeholder="Day" required class="form-control" oninput="this.value = this.value.replace(/\b\w/g, c => c.toUpperCase());">
+    <button type="submit" class="add-btn">Add Task</button>
+  </form>
+
+  {% if tasks %}
+  <form action="{{url_for('tasks.clear_tasks')}}" method="POST">
+    <button type="submit" class="clear-btn btn-clear">Clear All Tasks</button>
+  </form>
+
+  <br />
+
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th>S.no</th>
+        <th>Task</th>
+        <th>Time</th>
+        <th>Date</th>
+        <th>Day</th>
+        <th>Status</th>
+        <th>Change</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for task in tasks %}
+      <tr>
+        <td>{{ task.task_number }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.time }}</td>
+        <td>{{ task.date }}</td>
+        <td>{{ task.day }}</td>
+        <td>
+          <span class="badge {{task.status|lower}}">{{task.status}}</span>
+        </td>
+        <td>
+          <form action="{{url_for('tasks.toggle_status', task_id=task.id)}}" method="POST">
+            <button type="submit" class="btn-small">Next</button>
+          </form>
+        </td>
+        <td>
+          <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" method="POST">
+            <button type="submit" class="btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No Tasks yet. Add One Above</p>
+  {% endif %}
+</div>
+
+{% endblock %}
