@@ -3,6 +3,7 @@ click
 dnspython
 email_validator
 Flask
+gunicorn
 Flask-Login
 Flask-SQLAlchemy
 Flask-WTF
