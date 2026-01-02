@@ -6,7 +6,7 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable = False)
     time = db.Column(db.String(100), nullable = True)
     date = db.Column(db.String(100), nullable = True)
-    day = db.Column(db.String(100), nullable = True)
+    # day = db.Column(db.String(100), nullable = True)
     status = db.Column(db.String(20), default = "Pending")
 
      # NEW: link task to user

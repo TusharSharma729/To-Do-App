@@ -24,7 +24,7 @@ def add_task():
     title = request.form.get('title')
     time = request.form.get('time')
     date = request.form.get('date')
-    day = request.form.get('day')
+    # day = request.form.get('day')
     if title:
         current_user = User.query.filter_by(username=session['user']).first()
 
@@ -32,7 +32,7 @@ def add_task():
         last_task = Task.query.filter_by(user_id=current_user.id).order_by(Task.task_number.desc()).first()
         next_number = (last_task.task_number + 1) if last_task else 1
 
-        new_task = Task(title=title, time=time, date=date, day=day, user_id=current_user.id, task_number=next_number)
+        new_task = Task(title=title, time=time, date=date, user_id=current_user.id, task_number=next_number)
         db.session.add(new_task)
         db.session.commit()
         flash('Task added successfully', 'success')
